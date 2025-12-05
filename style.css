@@ -1,0 +1,223 @@
+:root {
+    --size: 350px;
+    --bg: #e0e5ec;
+    --clock-face: #e0e5ec;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+    --text-main: #4d5b7c;
+    --hand-hour: #2d3748;
+    --hand-min: #4a5568;
+    --hand-sec: #ef476f;
+    --marker: #cbd5e0;
+}
+
+/* ডার্ক মোড */
+body.dark-mode {
+    --bg: #1a202c;
+    --clock-face: #1a202c;
+    --shadow-light: #2d3748;
+    --shadow-dark: #000000;
+    --text-main: #e2e8f0;
+    --hand-hour: #cbd5e0;
+    --hand-min: #a0aec0;
+    --hand-sec: #00b4d8;
+    --marker: #4a5568;
+}
+
+/* নিয়ন মোড */
+body.neon-mode {
+    --bg: #0f172a;
+    --clock-face: #0f172a;
+    --shadow-light: rgba(0, 243, 255, 0.1);
+    --shadow-dark: #000000;
+    --text-main: #00f3ff;
+    --hand-hour: #00f3ff;
+    --hand-min: #bc13fe;
+    --hand-sec: #ffe600;
+    --marker: #334155;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'Hind Siliguri', sans-serif;
+    transition: 0.3s;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ঘড়ির মূল বডি */
+.clock {
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: var(--clock-face);
+    /* নিউমর্ফিজম শ্যাডো */
+    box-shadow: 20px 20px 60px var(--shadow-dark), 
+               -20px -20px 60px var(--shadow-light);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ডায়াল এরিয়া */
+.clock-dial {
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    position: relative;
+    /* ইনার শ্যাডো */
+    box-shadow: inset 5px 5px 10px var(--shadow-dark), 
+                inset -5px -5px 10px var(--shadow-light);
+}
+
+/* ============ ফিক্সড পজিশনিং সিস্টেম ============ */
+
+/* সেন্টার পয়েন্ট ফিক্স করা */
+.center-point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    background: var(--hand-hour);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    border: 2px solid var(--hand-sec);
+}
+
+/* সংখ্যাগুলোর পজিশনিং ফিক্স */
+.number {
+    position: absolute;
+    top: 50%;  /* একদম মাঝখানে */
+    left: 50%; /* একদম মাঝখানে */
+    transform: translate(-50%, -50%); /* নিজেকে সেন্টারে আনা */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* মার্কার (দাগগুলো) */
+.marker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--marker);
+    transform-origin: left center; /* বাম দিক থেকে ঘুরবে */
+}
+
+.marker.big {
+    width: 10px;
+    height: 4px;
+}
+
+.marker.small {
+    width: 6px;
+    height: 2px;
+}
+
+/* কাঁটাগুলো */
+.hand {
+    position: absolute;
+    bottom: 50%; /* নিচ থেকে ৫০% মানে সেন্টারে শুরু */
+    left: 50%;
+    transform-origin: bottom center; /* ঘোরার অক্ষ নিচে */
+    transform: translateX(-50%) rotate(0deg);
+    border-radius: 5px 5px 0 0;
+    transition: transform 0.1s cubic-bezier(0.4, 2.3, 0.3, 1); /* বাউন্সি ভাব */
+}
+
+.hand.hour {
+    width: 6px;
+    height: 25%; /* ঘড়ির সাইজের ২৫% */
+    background: var(--hand-hour);
+    z-index: 5;
+}
+
+.hand.min {
+    width: 4px;
+    height: 35%;
+    background: var(--hand-min);
+    z-index: 6;
+}
+
+.hand.sec {
+    width: 2px;
+    height: 40%;
+    background: var(--hand-sec);
+    z-index: 7;
+    transition: transform 0.05s linear; /* সেকেন্ডের জন্য লিনিয়ার */
+}
+
+/* লেজ (Counterweight) */
+.hand.sec::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background: var(--hand-sec);
+}
+
+/* ============ ইউজার ইন্টারফেস ============ */
+.digital-panel {
+    padding: 15px 30px;
+    border-radius: 20px;
+    background: var(--bg);
+    box-shadow: 5px 5px 15px var(--shadow-dark), 
+               -5px -5px 15px var(--shadow-light);
+            text-align: center;
+}
+
+.time {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.date {
+    font-size: 1rem;
+    color: var(--text-main);
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background: var(--bg);
+    color: var(--text-main);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px var(--shadow-dark), 
+               -5px -5px 10px var(--shadow-light);
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn:active {
+    box-shadow: inset 5px 5px 10px var(--shadow-dark), 
+                inset -5px -5px 10px var(--shadow-light);
+  }
