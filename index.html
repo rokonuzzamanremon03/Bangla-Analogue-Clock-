@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফিক্সড প্রফেশনাল ক্লক</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;700&family=Rajdhani:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="controls">
+        <button class="btn" onclick="setTheme('light')">Light</button>
+        <button class="btn" onclick="setTheme('dark')">Dark</button>
+        <button class="btn" onclick="setTheme('neon')">Neon</button>
+    </div>
+
+    <div class="clock">
+        <div class="clock-dial" id="dial">
+            <div class="center-point"></div>
+            
+            <div class="hand hour" id="hourHand"></div>
+            <div class="hand min" id="minHand"></div>
+            <div class="hand sec" id="secHand"></div>
+        </div>
+    </div>
+
+    <div class="digital-panel">
+        <div class="date" id="dateText">লোডিং...</div>
+        <div class="time" id="digitalTime">00:00:00</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
